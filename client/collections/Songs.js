@@ -3,19 +3,12 @@ var Songs = Backbone.Collection.extend({
 
   model: SongModel,
 
+  parse: function(response) {
+    return response.results;
+  },
+
   initialize: function() {
-    var context = this;
-    $.ajax({
-      type: 'GET',
-      url: this.url,
-      success: function(data) {
-        console.log('Songs context: ', context);
-        context.add(data.results);
-      },
-      error: function(data) {
-        console.log('error');
-      }
-    });
+    this.fetch();
   },
 
   url: 'https://api.parse.com/1/classes/songs'
