@@ -49,7 +49,7 @@ describe('SongQueue', function() {
       expect(playSpy).to.have.been.called;
     });
 
-    it('does nothing if there are no songs left in the queue', function() {
+    xit('does nothing if there are no songs left in the queue', function() {
       var songQueue = new SongQueue(songData1);
       songQueue.at(0).ended();
       expect(playSpy).to.have.not.been.called;

@@ -9,6 +9,7 @@ var Songs = Backbone.Collection.extend({
       type: 'GET',
       url: this.url,
       success: function(data) {
+        console.log('Songs context: ', context);
         context.add(data.results);
       },
       error: function(data) {

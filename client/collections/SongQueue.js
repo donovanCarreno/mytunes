@@ -4,26 +4,32 @@ var SongQueue = Backbone.Collection.extend({
   model: SongModel,
 
   initialize: function() {
-    this.on('add', function() {
-      if (this.length === 1) {
-        this.playFirst();
-      }
-    });
+    // plays if it is the first song added, 
+    // but if it is not the first added, there is already a song playing
+    this.on('add', this.enqueue, this);
+    this.on('ended', this.playNext, this);
+    this.on('dequeue', this.dequeue, this);
+  },
 
-    this.on('ended', function() {
-      this.remove(this.at(0));
-      if (this.at(0)) {
-        this.playFirst();
-      }
-    });
+  enqueue: function(song) {
+    if (this.length === 1) {
+      this.playFirst();
+    }
+  },
 
-    this.on('dequeue', function() {
-      this.remove(this.at(0)); // we might need to come back and take out element at an index, instead of first index
-    });
+  dequeue: function(song) {
+    this.remove(song);
   },
 
   playFirst: function() {
-    this.at(0).play();
+    if (this.at(0)) {
+      this.at(0).play();
+    }
+  },
+
+  playNext: function() {
+    this.remove(this.at(0));
+    this.playFirst();
   }
 
 });
